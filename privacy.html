@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hibi プライバシーポリシー</title>
+  <meta name="description" content="hibi（日記アプリ）のプライバシーポリシー。当方はお客様の日記の本文・写真・動画にアクセスする手段を持っていません。記録は端末内とお客様自身の Google Drive にのみ保存されます。">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@100&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --surface: #161616;
+      --surface-deep: #050505;
+      --text: #FFFFFF;
+      --text-body: #D4D4D8;
+      --text-sub: #8A8A92;
+      --text-dim: #5C5C63;
+      --accent: #D4A373;
+      --accent-light: rgba(212,163,115,0.12);
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text-body);
+      font-family: 'Noto Sans JP', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.8;
+    }
+    body {
+      min-height: 100vh;
+      padding: 0;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
+
+    /* ===== サイト共通ヘッダー ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .site-header .brand {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .site-header .brand-mark {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .site-header .brand-underline {
+      margin-top: 5px;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-bottom-color 0.15s;
+    }
+    .site-nav a:hover { color: var(--text); }
+    .site-nav a.current {
+      color: var(--accent);
+      border-bottom-color: rgba(212, 163, 115, 0.5);
+    }
+    .site-nav .home-back {
+      color: var(--text-dim);
+      margin-left: 8px;
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+    }
+    .site-nav .home-back:hover { color: var(--text-sub); }
+    .site-header + main { padding-top: 24px; }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    header {
+      text-align: center;
+      padding: 16px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    header h1 {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+    header .sub {
+      margin-top: 6px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+    header .ja {
+      margin-top: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    header .revised {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+    .preface {
+      margin: 0 0 32px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.85;
+    }
+    .preface p { margin: 0; }
+    section.article {
+      margin: 28px 0;
+    }
+    section.article h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 0 4px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    section.article h2 .ja {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-transform: none;
+    }
+    section.article .body {
+      padding: 0 4px;
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.9;
+    }
+    section.article .body p { margin: 0 0 14px; }
+    section.article .body p:last-child { margin-bottom: 0; }
+    section.article .body strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+    section.article .body ol,
+    section.article .body ul {
+      margin: 8px 0 14px;
+      padding-left: 22px;
+    }
+    section.article .body li {
+      margin-bottom: 8px;
+      line-height: 1.8;
+    }
+    section.article .body ol.numbered {
+      counter-reset: item;
+      list-style: none;
+      padding-left: 0;
+    }
+    section.article .body ol.numbered > li {
+      counter-increment: item;
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 12px;
+    }
+    section.article .body ol.numbered > li::before {
+      content: counter(item) ".";
+      position: absolute;
+      left: 6px;
+      top: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    section.article .body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212,163,115,0.3);
+      padding-bottom: 1px;
+    }
+    section.article .body a:hover { border-bottom-color: var(--accent); }
+    section.article .body .external-transmission {
+      margin-top: 18px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+    }
+    section.article .body .external-transmission > .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 10px;
+    }
+    section.article .body .external-transmission > p {
+      font-size: 13.5px;
+    }
+    section.article .body .external-transmission .note {
+      margin-top: 10px;
+      font-size: 12.5px;
+      color: var(--text-sub);
+    }
+    section.article .body .disclosure-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 4px;
+      font-size: 13px;
+    }
+    section.article .body .disclosure-table th,
+    section.article .body .disclosure-table td {
+      border: 1px solid var(--border-strong);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.7;
+    }
+    section.article .body .disclosure-table th {
+      background: var(--surface-deep);
+      color: var(--text);
+      font-weight: 500;
+      width: 32%;
+      white-space: nowrap;
+    }
+    section.article .body .disclosure-table td {
+      color: var(--text-body);
+      word-break: break-word;
+    }
+    @media (max-width: 480px) {
+      section.article .body .external-transmission { padding: 12px 14px; }
+      section.article .body .disclosure-table { font-size: 12px; }
+      section.article .body .disclosure-table th,
+      section.article .body .disclosure-table td { padding: 6px 8px; }
+      section.article .body .disclosure-table th { white-space: normal; }
+    }
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    footer .links {
+      margin-bottom: 18px;
+      font-size: 12px;
+    }
+    footer .links a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212,163,115,0.3);
+      padding-bottom: 1px;
+      margin: 0 8px;
+    }
+    footer .links a:hover { border-bottom-color: var(--accent); }
+    footer .end {
+      margin-top: 18px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-dim);
+    }
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 60px; }
+      section.article .body { font-size: 13.5px; }
+      header h1 { font-size: 12px; }
+      .preface { padding: 14px 16px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="hibi - 公開ドキュメント">
+      <span class="brand-mark">hibi</span>
+      <span class="brand-underline"></span>
+    </a>
+    <nav class="site-nav" aria-label="グローバルナビゲーション">
+      <a class="current" href="./privacy.html">プライバシー</a>
+      <a href="./terms.html">利用規約</a>
+      <a href="./faq.html">FAQ</a>
+      <a href="./notices.html">お知らせ</a>
+      <a class="home-back" href="./index.html">← Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <div class="ja">プライバシーポリシー</div>
+      <div class="revised">最終改定日: TBD</div>
+    </header>
+
+    <div class="preface">
+      <p>個人開発者 Kosuke Nakayama（以下「当方」）は、日記アプリ「hibi」（以下「本アプリ」）におけるお客様の情報の取り扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」）を定めます。</p>
+    </div>
+
+    <section class="article">
+      <h2><span class="mono">1.</span><span class="ja">はじめに</span></h2>
+      <div class="body">
+        <p>hibi は「自分のための記録を、安心して残せること」を最も大切にしています。</p>
+        <p>本アプリでお客様が記録する<strong>日記の本文・写真・動画・位置情報・タグ・ムードといった日記の中身</strong>は、お客様の<strong>端末内</strong>、およびお客様がご自身で連携した<strong>お客様自身の Google Drive</strong> にのみ保存されます。</p>
+        <p><strong>当方は、お客様の日記の本文・写真・動画にアクセスする手段を持っていません。</strong>そもそも、お客様の記録を保管する当方のサーバーが存在しないためです。</p>
+        <p>当方が把握できるのは、本アプリの改善のために取得する<strong>匿名の利用統計（どの画面が表示されたか・どのボタンが押されたか等のメタ情報）</strong>に限られます。詳しくは下記をご覧ください。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">2.</span><span class="ja">お客様の端末内に保存される情報（当方は閲覧・収集しません）</span></h2>
+      <div class="body">
+        <p>以下の情報は、お客様の<strong>端末内</strong>に保存され、当方のサーバーへ送信されることはありません。当方は中身を閲覧・収集できません。</p>
+        <ul>
+          <li>日記の本文、タグ、気分（ムード）、記録日時</li>
+          <li>写真・動画（お客様が選択・撮影して添付したもの）</li>
+          <li>位置情報（お客様が投稿時に「位置情報を追加」を操作したときのみ取得・保存。常時取得・バックグラウンド取得は行いません）</li>
+          <li>お客様が Google ログインを行った場合の、Google アカウントの氏名・メールアドレス・プロフィール画像、および Google Drive へアクセスするための認証情報</li>
+          <li>通知設定（「あの日の今日」「投稿リマインダー」の有効/無効・時刻）</li>
+          <li>アプリの利用状況に関する記録の一部（通知タップ・投稿などの操作記録 — 一部は第3条の利用統計として匿名のまま送信されます）</li>
+        </ul>
+        <p>これらは、お客様が本アプリをアンインストールすると端末内から削除されます。バックアップを有効にした場合は、ご自身の Google Drive にも保存されます（第4条参照）。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">3.</span><span class="ja">当方がアプリ改善のために取得する情報（匿名の利用統計のみ）</span></h2>
+      <div class="body">
+        <p>本アプリの改善のため、当方は次の<strong>匿名の利用統計</strong>を、<strong>第三者のプロダクト分析サービス</strong>へ送信し、分析します。</p>
+        <ul>
+          <li>アプリの起動・画面の閲覧</li>
+          <li>各機能の利用回数（投稿の作成・編集、バックアップ実行、通知タップ等）</li>
+          <li>設定状態のスナップショット（通知の ON/OFF、OS 通知許可の有無等）</li>
+        </ul>
+        <p><strong>この利用統計には、日記の本文・写真・動画・位置情報の地名や座標・お客様の氏名やメールアドレスなどの個人を特定する情報は一切含まれません。</strong>当方が把握するのは「どの画面が開かれたか」「どのボタンが押されたか」等のメタ情報に限られ、お客様が書いた内容は把握できません。</p>
+        <p>なお、広告目的の利用や、第三者の広告事業者によるトラッキングは行いません。</p>
+
+        <div class="external-transmission">
+          <div class="label">分析サービスへの送信情報の詳細</div>
+          <p>透明性の確保のため、上記の利用統計の分析のために送信している情報を以下に開示します。</p>
+          <table class="disclosure-table">
+            <tbody>
+              <tr>
+                <th>送信先事業者</th>
+                <td>PostHog Inc.</td>
+              </tr>
+              <tr>
+                <th>送信される情報</th>
+                <td>本条本文に記載のメタ情報（アプリの起動・画面の閲覧、各機能の利用回数、設定状態のスナップショット 等）。<strong>日記の本文・写真・動画・位置情報の地名や座標・お客様の氏名やメールアドレスなどの個人を特定する情報は含まれません。</strong></td>
+              </tr>
+              <tr>
+                <th>利用目的</th>
+                <td>本アプリの改善（機能ごとの利用状況の把握、ユーザー継続率の分析）</td>
+              </tr>
+              <tr>
+                <th>送信先のプライバシーポリシー</th>
+                <td><a href="https://posthog.com/privacy" rel="noopener noreferrer" target="_blank">https://posthog.com/privacy</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="note">送信先サービスに変更が生じた場合は、本ポリシーを改定して公表します。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">4.</span><span class="ja">Google ログインと、Google Drive を使ったバックアップについて</span></h2>
+      <div class="body">
+        <p>お客様が本アプリで Google ログインをご利用になった場合、お客様の Google アカウントの氏名・メールアドレス・プロフィール画像と、Google Drive へアクセスするための認証情報を、お客様の端末内に保存します。これらは、お客様ご自身の Google Drive へ日記を保存・復元するために使います。</p>
+        <p>バックアップを有効にされた場合、日記のデータ（本文・タグ・ムード・位置・日時などのまとまり）と添付された写真・動画は、<strong>お客様ご自身の Google Drive のなかにある <span class="mono">hibi-backup</span> フォルダ</strong>に保存されます。これはお客様が管理されている保存先であり、いつでもご自身で閲覧・削除いただけます。<strong>当方を含めた第三者への提供にはあたりません。</strong></p>
+        <p>本アプリによる Google API（Google Drive を含む）からの情報の取得・保存・利用は、<a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener noreferrer" target="_blank">Google API Services User Data Policy</a>（Limited Use 要件を含む）に準拠します。具体的には、お客様の Google Drive 上の <span class="mono">hibi-backup</span> フォルダから受け取った情報を、お客様が明示的に許可した機能（バックアップ・復元）の提供にのみ使用し、広告目的の使用・人手による閲覧（セキュリティ調査や法令対応などごく限定的な例外、またはお客様の明示の同意を得た場合を除く）・第三者への譲渡には使用しません。</p>
+        <p>Google が提供する認証・ストレージ機能をご利用になる際は、Google のプライバシーポリシーが適用されます。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">5.</span><span class="ja">アプリが利用する権限について</span></h2>
+      <div class="body">
+        <p>本アプリは、機能の提供のために以下の OS 権限をお客様にお願いすることがあります。いずれもお客様が機能を操作されたときに OS のダイアログでお願いし、許可しなくても本アプリは引き続きご利用いただけます（一部の機能はご利用いただけなくなります）。</p>
+        <ul>
+          <li><strong>カメラ</strong>: 投稿時に写真・動画を撮影して添付される場合に利用します。</li>
+          <li><strong>写真ライブラリ</strong>: 投稿時に既存の写真・動画を選択して添付される場合、またはプロフィール画像を設定される場合に利用します。</li>
+          <li><strong>位置情報</strong>: 投稿時に「位置情報を追加」を操作されたときのみ、端末の位置情報を取得します。常時取得・バックグラウンドでの取得は行いません。取得した位置情報は逆ジオコーディング（座標から地名への変換）を経て、その投稿に紐づく形でお客様の端末内に保存されます。バックアップを有効にされた場合は、お客様ご自身の Google Drive にも保存されます（第4条参照）。</li>
+          <li><strong>通知</strong>: 「あの日の今日」「投稿リマインダー」をお届けするために利用します。本アプリの通知はすべてお客様の端末内で生成されるローカル通知であり、当方のサーバーから配信するものではありません。通知の ON/OFF・時刻は本アプリの設定からいつでも変更できます。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">6.</span><span class="ja">第三者への提供</span></h2>
+      <div class="body">
+        <p>当方は、お客様の日記の中身（本文・写真・動画・位置情報・タグ・ムード）を第三者に提供・販売することはありません。</p>
+        <p>第4条のとおり、Google Drive へのバックアップは<strong>お客様自身の Google アカウント内</strong>へ保存するものであり、第三者への提供にはあたりません。</p>
+        <p>第3条の匿名の利用統計を<strong>第三者のプロダクト分析サービス</strong>へ送信していますが、これには日記の中身や個人を特定する情報は含まれません。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">7.</span><span class="ja">データの削除・お客様の権利</span></h2>
+      <div class="body">
+        <p>お客様は、ご自身のデータについて以下を行えます。</p>
+        <ul>
+          <li><strong>個々の日記の削除</strong>: 本アプリ内でいつでも削除できます。</li>
+          <li><strong>すべてのデータの削除</strong>: 本アプリの設定 →「すべてのデータを削除」から、端末内のすべての日記・写真・動画・設定・認証情報を一括で削除できます。連携中の Google アカウントについても、本アプリの認可（アクセス権）を取り消します。</li>
+          <li><strong>Google 連携の解除</strong>: 本アプリの設定 →「バックアップ」→「ログアウト」で、端末内の認証情報を削除し、Google Drive へのアクセスを停止できます。</li>
+          <li><strong>Google Drive 上のバックアップの削除</strong>: お客様の Google Drive 上の <span class="mono">hibi-backup</span> フォルダを削除することで、バックアップデータを消去できます（この操作は本アプリの外でお客様自身が行います）。</li>
+          <li><strong>アンインストール</strong>: 本アプリをアンインストールすると、端末内のすべてのデータが削除されます（Google Drive 上のバックアップは別途上記の手順で削除してください）。</li>
+        </ul>
+        <p>お客様のデータに関するお問い合わせ・削除のご依頼は、下記の連絡先までご連絡ください。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">8.</span><span class="ja">安全管理</span></h2>
+      <div class="body">
+        <p>本アプリは、第三者からの不正アクセスを防ぐため、アプリロック（パスコード・生体認証）機能を提供しています。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">9.</span><span class="ja">子どものプライバシー</span></h2>
+      <div class="body">
+        <p>本アプリは 13歳以上の方の利用を想定しています。13歳未満のお客様による本アプリのご利用は、保護者の方の同意を得たうえで行ってください。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">10.</span><span class="ja">本ポリシーの改定</span></h2>
+      <div class="body">
+        <p>当方は、必要に応じて本ポリシーを改定することがあります。重要な変更を行う場合は、本アプリまたは本ページ上でお知らせします。改定後のポリシーは、本ページに掲載した時点から効力を生じます。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="mono">11.</span><span class="ja">お問い合わせ先</span></h2>
+      <div class="body">
+        <p>本ポリシーに関するお問い合わせは、以下までご連絡ください。</p>
+        <ul>
+          <li>連絡先: <span class="mono">hibi.journal@gmail.com</span></li>
+          <li>事業者: 個人開発者 Kosuke Nakayama</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div class="links">
+        <a href="./terms.html">利用規約</a>
+        <a href="./faq.html">FAQ</a>
+      </div>
+      <p>© 2026 Kosuke Nakayama</p>
+      <p class="end mono">— END_OF_PRIVACY_POLICY —</p>
+    </footer>
+  </main>
+</body>
+</html>

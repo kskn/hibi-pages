@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hibi</title>
+  <meta name="description" content="日記アプリ hibi の公開ドキュメント置き場です。プライバシーポリシー・利用規約・よくあるご質問・お知らせを掲載しています。">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@100&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --surface: #161616;
+      --text: #FFFFFF;
+      --text-body: #D4D4D8;
+      --text-sub: #8A8A92;
+      --text-dim: #5C5C63;
+      --accent: #D4A373;
+      --accent-light: rgba(212,163,115,0.12);
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text-body);
+      font-family: 'Noto Sans JP', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.7;
+    }
+    body { min-height: 100vh; }
+
+    /* ===== サイト共通ヘッダー ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .site-header .brand {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .site-header .brand-mark {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .site-header .brand-underline {
+      margin-top: 5px;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-bottom-color 0.15s;
+    }
+    .site-nav a:hover { color: var(--text); }
+    .site-nav a.current {
+      color: var(--accent);
+      border-bottom-color: rgba(212, 163, 115, 0.5);
+    }
+
+    /* ===== index 本体 ===== */
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 32px;
+      letter-spacing: 0;
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    p { color: var(--text-sub); margin-bottom: 24px; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 12px; }
+    main a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212, 163, 115, 0.3);
+      padding-bottom: 2px;
+    }
+    main a:hover { border-bottom-color: var(--accent); }
+    footer {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
+      color: var(--text-dim);
+      font-size: 12px;
+    }
+
+    @media (max-width: 640px) {
+      .site-header {
+        padding: 12px 16px;
+        gap: 10px;
+      }
+      .site-header .brand-mark { font-size: 20px; }
+      .site-nav {
+        gap: 14px;
+        font-size: 11px;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      main { padding: 32px 20px 60px; }
+      h1 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="hibi - 公開ドキュメント">
+      <span class="brand-mark">hibi</span>
+      <span class="brand-underline"></span>
+    </a>
+    <nav class="site-nav" aria-label="グローバルナビゲーション">
+      <a href="./privacy.html">プライバシー</a>
+      <a href="./terms.html">利用規約</a>
+      <a href="./faq.html">FAQ</a>
+      <a href="./notices.html">お知らせ</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>hibi</h1>
+    <p>日記アプリ hibi の公開ドキュメント置き場です。</p>
+    <ul>
+      <li><a href="./privacy.html">プライバシーポリシー</a></li>
+      <li><a href="./terms.html">利用規約</a></li>
+      <li><a href="./faq.html">よくあるご質問</a></li>
+      <li><a href="./notices.html">お知らせ</a></li>
+    </ul>
+  </main>
+
+  <footer>© 2026 Kosuke Nakayama</footer>
+</body>
+</html>

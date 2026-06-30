@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  hibi favicon (B 案: Pillar 横線 1 本 / 文字なし)
+  背景: midnight #0A0A0A / 横線: amber accent #D4A373
+-->
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" fill="#0A0A0A"/>
+  <line x1="8" y1="16" x2="24" y2="16" stroke="#D4A373" stroke-width="2" stroke-linecap="round"/>
+</svg>

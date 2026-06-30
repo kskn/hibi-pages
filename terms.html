@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hibi 利用規約</title>
+  <meta name="description" content="hibi（日記アプリ）の利用規約。本アプリの利用条件・禁止事項・免責・サービス変更等を定めます。">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@100&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --surface: #161616;
+      --surface-deep: #050505;
+      --text: #FFFFFF;
+      --text-body: #D4D4D8;
+      --text-sub: #8A8A92;
+      --text-dim: #5C5C63;
+      --accent: #D4A373;
+      --accent-light: rgba(212,163,115,0.12);
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text-body);
+      font-family: 'Noto Sans JP', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.8;
+    }
+    body {
+      min-height: 100vh;
+      padding: 0;
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
+
+    /* ===== サイト共通ヘッダー ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .site-header .brand {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .site-header .brand-mark {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .site-header .brand-underline {
+      margin-top: 5px;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-bottom-color 0.15s;
+    }
+    .site-nav a:hover { color: var(--text); }
+    .site-nav a.current {
+      color: var(--accent);
+      border-bottom-color: rgba(212, 163, 115, 0.5);
+    }
+    .site-nav .home-back {
+      color: var(--text-dim);
+      margin-left: 8px;
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+    }
+    .site-nav .home-back:hover { color: var(--text-sub); }
+    .site-header + main { padding-top: 24px; }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+    header {
+      text-align: center;
+      padding: 16px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    header h1 {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+    header .sub {
+      margin-top: 6px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+    header .ja {
+      margin-top: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    header .revised {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+    .preface {
+      margin: 0 0 32px;
+      padding: 18px 20px;
+      background: var(--surface);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.85;
+    }
+    .preface p { margin: 0; }
+    section.article {
+      margin: 28px 0;
+    }
+    section.article h2 {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 0 4px 12px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-sub);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    section.article h2 .ja {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      text-transform: none;
+    }
+    section.article .body {
+      padding: 0 4px;
+      font-size: 14px;
+      color: var(--text-body);
+      line-height: 1.9;
+    }
+    section.article .body p { margin: 0 0 14px; }
+    section.article .body p:last-child { margin-bottom: 0; }
+    section.article .body strong {
+      color: var(--text);
+      font-weight: 700;
+    }
+    section.article .body a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212,163,115,0.3);
+      padding-bottom: 1px;
+    }
+    section.article .body a:hover { border-bottom-color: var(--accent); }
+    section.article .body ol,
+    section.article .body ul {
+      margin: 8px 0 14px;
+      padding-left: 22px;
+    }
+    section.article .body li {
+      margin-bottom: 8px;
+      line-height: 1.85;
+    }
+    section.article .body ol.numbered {
+      counter-reset: item;
+      list-style: none;
+      padding-left: 0;
+    }
+    section.article .body ol.numbered > li {
+      counter-increment: item;
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 12px;
+    }
+    section.article .body ol.numbered > li::before {
+      content: counter(item) ".";
+      position: absolute;
+      left: 6px;
+      top: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 500;
+    }
+    section.article .body .note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+    footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-sub);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    footer .links {
+      margin-bottom: 18px;
+      font-size: 12px;
+    }
+    footer .links a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(212,163,115,0.3);
+      padding-bottom: 1px;
+      margin: 0 8px;
+    }
+    footer .links a:hover { border-bottom-color: var(--accent); }
+    footer .end {
+      margin-top: 18px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--text-dim);
+    }
+    @media (max-width: 480px) {
+      main { padding: 28px 16px 60px; }
+      section.article .body { font-size: 13.5px; }
+      header h1 { font-size: 12px; }
+      .preface { padding: 14px 16px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="hibi - 公開ドキュメント">
+      <span class="brand-mark">hibi</span>
+      <span class="brand-underline"></span>
+    </a>
+    <nav class="site-nav" aria-label="グローバルナビゲーション">
+      <a href="./privacy.html">プライバシー</a>
+      <a class="current" href="./terms.html">利用規約</a>
+      <a href="./faq.html">FAQ</a>
+      <a href="./notices.html">お知らせ</a>
+      <a class="home-back" href="./index.html">← Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <header>
+      <div class="ja">利用規約</div>
+      <div class="revised">最終改定日: TBD</div>
+    </header>
+
+    <div class="preface">
+      <p>本利用規約（以下「本規約」）は、個人開発者 Kosuke Nakayama（以下「当方」）が提供する日記アプリ「hibi」（以下「本アプリ」）の利用条件を定めるものです。お客様には、本規約に従って本アプリをご利用いただきます。</p>
+    </div>
+
+    <section class="article">
+      <h2><span class="ja">第1条（適用範囲・本規約への同意）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本規約は、お客様と当方との間の本アプリの利用に関わる一切の関係に適用されます。</li>
+          <li>お客様は、本アプリをダウンロードし、または利用を開始した時点で、本規約に同意したものとみなされます。</li>
+          <li>本アプリの利用に関して、当方が別途定めるガイドラインや注意書き等がある場合、それらも本規約の一部を構成します。</li>
+          <li>お客様の個人情報・データの取り扱いについては、別途定める「<a href="./privacy.html">プライバシーポリシー</a>」（本規約とあわせてご確認ください）に従います。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第2条（本アプリの特徴と前提）</span></h2>
+      <div class="body">
+        <p>本アプリは、お客様が記録した日記の本文・写真・動画・位置情報・タグ・気分（ムード）などの内容を保管するサーバーを持ちません。これらの内容は、お客様の<strong>端末内</strong>、およびお客様がご自身で連携した<strong>お客様自身の Google Drive</strong> にのみ保存されます。</p>
+        <p><strong>当方は、お客様の日記の本文・写真・動画にアクセスする手段を持っていません。</strong></p>
+        <p>この前提のもとで本規約をお読みください。本アプリの情報の取り扱いの詳細は、プライバシーポリシーに記載しています。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第3条（アカウントと Google ログインの利用条件）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本アプリは、お客様が日記を記録するにあたり、当方独自のアカウント登録を必要としません。</li>
+          <li>お客様は、本アプリの一部の機能（お客様自身の Google Drive へのバックアップ・復元）をご利用になる場合、Google アカウントによるログイン（Google ログイン）を行うことができます。</li>
+          <li>Google ログインをご利用になる場合、Google が定める利用規約およびプライバシーポリシーが別途適用されます。お客様は、ご自身の責任において Google アカウントを管理するものとします。</li>
+          <li>お客様は、ご自身の Google アカウントの認証情報を適切に管理する責任を負います。当方は、お客様の Google アカウントの不正利用によって生じた損害について、責任を負いません。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第4条（お客様の責任・データの管理とバックアップ）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本アプリで記録した日記の内容は、原則としてお客様の端末内に保存されます。端末の故障・紛失・初期化、本アプリのアンインストール、OS のアップデート等により、端末内のデータが失われる可能性があります。</li>
+          <li>お客様は、ご自身のデータを保全する責任を負います。当方は、データのバックアップ手段として Google Drive へのバックアップ機能を提供していますが、その利用はお客様の任意です。</li>
+          <li>お客様は、本アプリの記録内容を唯一の保存先とせず、必要に応じてご自身でバックアップ（Google Drive へのバックアップ機能のご利用、データのエクスポート機能のご利用等）を行うことを推奨します。</li>
+          <li>お客様の端末内またはお客様自身の Google Drive 上のデータの消失・破損について、当方は、責任を負いません。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第5条（禁止事項）</span></h2>
+      <div class="body">
+        <p>お客様は、本アプリの利用にあたり、以下の行為を行ってはなりません。</p>
+        <ol class="numbered">
+          <li>法令または公序良俗に違反する行為</li>
+          <li>当方または第三者の知的財産権、肖像権、プライバシー、名誉その他の権利または利益を侵害する行為</li>
+          <li>本アプリのソフトウェアを、逆コンパイル・逆アセンブル・リバースエンジニアリングする行為（法令で認められる範囲を除く）</li>
+          <li>本アプリの不具合を意図的に利用する行為、または本アプリに過度の負荷をかける行為</li>
+          <li>本アプリを、当方が意図しない方法で改変・複製・再配布する行為</li>
+          <li>その他、当方が不適切と合理的に判断する行為</li>
+        </ol>
+        <p class="note">※ お客様が本アプリ内に記録する日記の内容を、当方が閲覧・監視することはありません。本条の禁止事項は、主に本アプリのソフトウェア自体の利用態様を対象とするものです。</p>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第6条（ユーザーコンテンツに関する権利）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>お客様が本アプリで記録した日記の本文・写真・動画・その他の内容（以下「ユーザーコンテンツ」）に関する著作権その他の一切の権利は、お客様または正当な権利者に帰属します。</li>
+          <li>当方は、ユーザーコンテンツを保管・収集する手段を持ちません。したがって、当方がユーザーコンテンツを利用・公開・第三者へ提供することはありません。</li>
+          <li>お客様は、ユーザーコンテンツについて、ご自身が正当な権利を有していること、または必要な許諾を得ていることを保証するものとします。第三者の権利を侵害するコンテンツを記録したことによって生じた紛争について、お客様は自らの責任と費用で解決するものとし、当方は責任を負いません。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第7条（知的財産権）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本アプリおよび本アプリに関連して当方が提供する一切のソフトウェア、デザイン、ロゴ、文章、画像その他のコンテンツ（ユーザーコンテンツを除く）に関する知的財産権は、当方または正当な権利者に帰属します。</li>
+          <li>お客様は、本規約に基づき本アプリを利用する範囲を超えて、これらを利用（複製・転載・改変・再配布等）してはなりません。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第8条（免責事項・保証の否認）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本アプリは、現状有姿（あるがままの状態）で提供されます。当方は、本アプリが特定の目的に適合すること、エラーや不具合がないこと、中断なく利用できることを保証しません。</li>
+          <li>当方は、本アプリの利用または利用不能によってお客様に生じた損害（データの消失・破損、機会の損失等を含みます）について、責任を負いません。</li>
+          <li>本アプリのバックアップ・復元機能は、Google が提供する Google Drive のサービスに依存します。Google Drive の仕様変更・障害・提供終了、お客様の Google アカウントの状態の変化等により、バックアップまたは復元が行えない場合があります。当方は、これらに起因する損害について責任を負いません。</li>
+          <li>本アプリは現在、無償で提供されています。無償で提供されていることに鑑み、前各項にかかわらず、当方の責任は法令上許容される範囲で限定されるものとします。</li>
+          <li>お客様が消費者契約法上の消費者に該当する場合において、本規約における当方の免責に関する定め（第3条第4項、第4条第4項、本条各項、第9条第5項その他の免責に関する条項を含みます）が同法その他の強行法規に反するときは、当該強行法規が適用される限度で、当該免責に関する定めは適用されないものとします。当方の故意または重過失による場合についても同様とします。</li>
+          <li>前項により当方がお客様に対して損害賠償責任を負う場合であっても、当方が負う賠償の額は、当該損害が発生した月にお客様から実際に受領した本アプリの利用料金の額を上限とします。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第9条（サービスの変更・中断・終了）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>当方は、お客様への事前の通知なく、本アプリの内容の全部または一部を変更・追加・削除することがあります。</li>
+          <li>当方は、本アプリの保守、システムの不具合、その他やむを得ない事由により、本アプリの提供を一時的に中断することがあります。</li>
+          <li>当方は、相当の期間をもって本ページまたは本アプリ上で告知することにより、本アプリの提供を終了することができます。ただし、緊急やむを得ない場合はこの限りではありません。</li>
+          <li>本アプリの提供が終了した場合でも、お客様の端末内およびお客様自身の Google Drive に保存されたデータは、お客様の管理下に残ります。お客様は、提供終了に備え、必要に応じてご自身でデータのバックアップ・エクスポートを行うことを推奨します。</li>
+          <li>当方は、本条に基づく本アプリの変更・中断・終了によってお客様に生じた損害について、責任を負いません。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第10条（本規約の変更）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>当方は、必要に応じて本規約を変更することがあります。</li>
+          <li>本規約を変更する場合、当方は、変更後の本規約の内容を本ページまたは本アプリ上に掲載します。重要な変更を行う場合は、本アプリまたは本ページ上で分かりやすい方法によりお知らせします。</li>
+          <li>変更後の本規約は、本ページに掲載した時点から効力を生じます。お客様が当該掲載後に本アプリを継続して利用された場合、変更後の本規約に同意したものとみなされます。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第11条（準拠法・裁判管轄）</span></h2>
+      <div class="body">
+        <ol class="numbered">
+          <li>本規約の解釈および適用は、日本法に準拠します。</li>
+          <li>本アプリまたは本規約に関連してお客様と当方との間に紛争が生じた場合、東京地方裁判所を第一審の専属的合意管轄裁判所とします。</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="article">
+      <h2><span class="ja">第12条（お問い合わせ）</span></h2>
+      <div class="body">
+        <p>本規約に関するお問い合わせは、以下までご連絡ください。</p>
+        <ul>
+          <li>連絡先: <span class="mono">hibi.journal@gmail.com</span></li>
+          <li>事業者: 個人開発者 Kosuke Nakayama</li>
+        </ul>
+      </div>
+    </section>
+
+    <footer>
+      <div class="links">
+        <a href="./privacy.html">プライバシーポリシー</a>
+        <a href="./faq.html">FAQ</a>
+      </div>
+      <p>© 2026 Kosuke Nakayama</p>
+      <p class="end mono">— END_OF_TERMS —</p>
+    </footer>
+  </main>
+</body>
+</html>
