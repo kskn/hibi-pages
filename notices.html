@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hibi お知らせ</title>
+  <meta name="description" content="hibi（日記アプリ）からのお知らせ。アップデート・新機能・運営からのお知らせを掲載しています。">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@100&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0A0A0A;
+      --surface: #161616;
+      --surface-deep: #050505;
+      --text: #FFFFFF;
+      --text-body: #D4D4D8;
+      --text-sub: #8A8A92;
+      --text-dim: #5C5C63;
+      --accent: #D4A373;
+      --accent-light: rgba(212,163,115,0.12);
+      --border: rgba(255,255,255,0.07);
+      --border-strong: rgba(255,255,255,0.12);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      background: var(--bg);
+      color: var(--text-body);
+      font-family: 'Noto Sans JP', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -webkit-text-size-adjust: 100%;
+      line-height: 1.8;
+    }
+    body { min-height: 100vh; padding: 0; }
+    .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
+
+    /* ===== サイト共通ヘッダー ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .site-header .brand {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .site-header .brand-mark {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: 0;
+      line-height: 1;
+    }
+    .site-header .brand-underline {
+      margin-top: 5px;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      flex-wrap: wrap;
+    }
+    .site-nav a {
+      color: var(--text-sub);
+      text-decoration: none;
+      padding-bottom: 2px;
+      border-bottom: 1px solid transparent;
+      transition: color 0.15s, border-bottom-color 0.15s;
+    }
+    .site-nav a:hover { color: var(--text); }
+    .site-nav a.current {
+      color: var(--accent);
+      border-bottom-color: rgba(212, 163, 115, 0.5);
+    }
+    .site-nav .home-back {
+      color: var(--text-dim);
+      margin-left: 8px;
+      padding-left: 12px;
+      border-left: 1px solid var(--border);
+    }
+    .site-nav .home-back:hover { color: var(--text-sub); }
+    .site-header + main { padding-top: 24px; }
+
+    /* ===== ページ本体 ===== */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
+    header.page-header {
+      text-align: center;
+      padding: 16px 0 36px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    header.page-header h1 {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.3em;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+    header.page-header .sub {
+      margin-top: 6px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+    }
+    header.page-header .ja {
+      margin-top: 14px;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    header.page-header .intro {
+      margin-top: 18px;
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.75;
+    }
+
+    /* ===== お知らせカード ===== */
+    .notice-card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px 20px 28px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .notice-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 16px;
+      bottom: 16px;
+      width: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+    .notice-card.important::before { opacity: 0.85; }
+    .notice-card[open] { border-color: var(--border-strong); }
+
+    .notice-card > summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 0 28px 0 0;
+      position: relative;
+    }
+    .notice-card > summary::-webkit-details-marker { display: none; }
+    .notice-card > summary::after {
+      content: '+';
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      color: var(--accent);
+      font-weight: 400;
+      transition: transform 0.15s;
+    }
+    .notice-card[open] > summary::after { content: '−'; }
+    .notice-card > summary:hover { color: var(--accent); }
+
+    .notice-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+      font-size: 11px;
+      flex-wrap: wrap;
+    }
+    .notice-date {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-sub);
+      letter-spacing: 0.05em;
+    }
+    .notice-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      background: var(--accent-light);
+      padding: 2px 6px;
+      border-radius: 3px;
+      text-transform: uppercase;
+    }
+    .notice-category.maintenance {
+      color: #D4A850;
+      background: rgba(212, 168, 80, 0.12);
+    }
+    .notice-important-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: #E08B7E;
+      background: rgba(196, 85, 77, 0.15);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .notice-title {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 8px;
+      letter-spacing: -0.01em;
+      line-height: 1.5;
+    }
+
+    .notice-body-wrap {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .notice-log-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+    .notice-body {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--text-body);
+    }
+
+    .notice-empty,
+    .notice-error {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-sub);
+      font-size: 13px;
+      line-height: 1.75;
+    }
+
+    footer.page-footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 1.5px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 640px) {
+      .site-header {
+        padding: 12px 16px;
+        gap: 10px;
+      }
+      .site-header .brand-mark { font-size: 20px; }
+      .site-nav {
+        gap: 14px;
+        font-size: 11px;
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .site-nav .home-back {
+        margin-left: 0;
+        padding-left: 8px;
+      }
+      .site-header + main { padding-top: 20px; }
+      main { padding: 20px 16px 60px; }
+      .notice-card { padding: 16px 20px 16px 24px; }
+      .notice-title { font-size: 15px; }
+      .notice-body { font-size: 13.5px; }
+      footer.page-footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="hibi - 公開ドキュメント">
+      <span class="brand-mark">hibi</span>
+      <span class="brand-underline"></span>
+    </a>
+    <nav class="site-nav" aria-label="グローバルナビゲーション">
+      <a href="./privacy.html">プライバシー</a>
+      <a href="./terms.html">利用規約</a>
+      <a href="./faq.html">FAQ</a>
+      <a class="current" href="./notices.html">お知らせ</a>
+      <a class="home-back" href="./index.html">← Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <header class="page-header">
+      <div class="ja">お知らせ</div>
+    </header>
+
+    <div id="notices-container">
+      <div class="notice-empty">読み込み中…</div>
+    </div>
+
+    <!-- preview (file://) で fetch が CORS でブロックされた場合の fallback。
+         本番 (GitHub Pages / HTTPS) では fetch が優先されるため、
+         notices.json の内容と同期させる運用。 -->
+    <script type="application/json" id="notices-fallback">
+[
+  {
+    "id": "test-001",
+    "date": "2026-06-29",
+    "category": "release",
+    "important": false,
+    "title": "テスト",
+    "body": "テスト"
+  }
+]
+    </script>
+
+    <footer class="page-footer">
+      <span>HIBI_NOTICES</span>
+      <span>END_OF_LOGS</span>
+    </footer>
+  </main>
+
+  <script>
+    (function() {
+      const CATEGORY_LABEL = {
+        release: 'RELEASE',
+        feature: 'FEATURE',
+        maintenance: 'MAINTENANCE',
+      };
+
+      function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, ch => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;',
+        }[ch]));
+      }
+
+      function formatDate(yyyymmdd) {
+        return String(yyyymmdd).replace(/-/g, '.');
+      }
+
+      function renderNotice(notice) {
+        const date = formatDate(notice.date);
+        const cat = CATEGORY_LABEL[notice.category] || 'NOTICE';
+        const catClass = notice.category === 'maintenance' ? ' maintenance' : '';
+        const importantClass = notice.important ? ' important' : '';
+        const importantPill = notice.important
+          ? '<span class="notice-important-pill">重要</span>'
+          : '';
+        const title = escapeHtml(notice.title);
+        const body = escapeHtml(notice.body).replace(/\n/g, '<br>');
+        const id = escapeHtml(notice.id);
+
+        return `
+<details class="notice-card${importantClass}">
+  <summary>
+    <div class="notice-meta">
+      <span class="notice-date mono">${date}</span>
+      <span class="notice-category${catClass}">${cat}</span>
+      ${importantPill}
+    </div>
+    <div class="notice-title">${title}</div>
+  </summary>
+  <div class="notice-body-wrap">
+    <div class="notice-log-id">LOG_ID // #${id}</div>
+    <div class="notice-body">${body}</div>
+  </div>
+</details>`;
+      }
+
+      function render(notices) {
+        const container = document.getElementById('notices-container');
+        if (!notices || notices.length === 0) {
+          container.innerHTML = '<div class="notice-empty">現在お知らせはありません。</div>';
+          return;
+        }
+        const sorted = notices.slice().sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+        container.innerHTML = sorted.map(renderNotice).join('');
+      }
+
+      function renderError(msg) {
+        const container = document.getElementById('notices-container');
+        container.innerHTML = `<div class="notice-error">${escapeHtml(msg)}</div>`;
+      }
+
+      function loadFallback() {
+        try {
+          const el = document.getElementById('notices-fallback');
+          if (!el) return null;
+          const data = JSON.parse(el.textContent);
+          return Array.isArray(data) ? data : null;
+        } catch (e) {
+          console.warn('[notices] fallback parse failed:', e);
+          return null;
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        fetch('./notices.json', { cache: 'no-cache' })
+          .then(res => {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+          })
+          .then(data => {
+            if (!Array.isArray(data)) throw new Error('notices.json is not an array');
+            render(data);
+          })
+          .catch(err => {
+            console.warn('[notices] fetch failed, trying inline fallback:', err);
+            const fallback = loadFallback();
+            if (fallback) {
+              render(fallback);
+            } else {
+              renderError('お知らせを取得できませんでした。通信環境をご確認ください。');
+            }
+          });
+      });
+    })();
+  </script>
+</body>
+</html>

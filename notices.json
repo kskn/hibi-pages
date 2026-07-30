@@ -1,0 +1,10 @@
+[
+  {
+    "id": "test-001",
+    "date": "2026-06-29",
+    "category": "release",
+    "important": false,
+    "title": "テスト",
+    "body": "テスト"
+  }
+]
