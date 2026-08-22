@@ -7,6 +7,7 @@ hibi（日記アプリ）の公開ドキュメント / 静的ファイルホス�
 - `privacy.html` — プライバシーポリシー
 - `terms.html` — 利用規約
 - `notices.json` — アプリ内お知らせ配信用 JSON
+- `get.html` — 友達紹介シェアの着地点（`/get`）。OS 判定で各ストアへリダイレクト。⚠ URL 恒久固定・ファイル名変更/ディレクトリ化/削除は禁止（共有済みリンクが全て死ぬため）
 
 ## 公開 URL
 
@@ -15,6 +16,7 @@ GitHub Pages（main / root）+ カスタムドメイン `hibi.bmtx.jp` で公開
 - `https://hibi.bmtx.jp/privacy.html`
 - `https://hibi.bmtx.jp/terms.html`
 - `https://hibi.bmtx.jp/notices.json`
+- `https://hibi.bmtx.jp/get`
 
 旧 URL（`https://kskn.github.io/hibi-pages/...`）はカスタムドメインへ自動リダイレクトされる（GitHub Pages の仕様）。
 

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A0A">
+
+<!-- 検索インデックスには載せない（PM §3-4 要件 6 / ストア掲載ページとの共食い回避）。
+     SNS のプレビュー生成クローラは robots meta を参照しないため OGP には影響しない。 -->
+<meta name="robots" content="noindex">
+
+<!-- ページ自身の title / description。OGP と同値に揃える（Designer §3-3）。 -->
+<title>hibi — 140 文字と写真の日記アプリ</title>
+<meta name="description" content="気軽に続けられる、本心の置き場。日記は、あなたの端末の中に保存されます。">
+
+<!-- ============================================================
+     OGP（Designer 設計 §3-3 / S139 Kenny 承認値をそのまま実装）
+
+     ⚠ og:title / og:description は LP（index.html）と **別値**にすること。
+       LP の値を流用すると「読み返す日のための、日記。」が
+       本文・画像・タイトルで 3 回重複し、共有文面が 2 行で足りるという
+       PM §5-2 案 3 の前提が崩れる（Designer §3-2）。
+       → LP 側（index.html）の値は変更しないこと。
+
+     ⚠ og:image は **絶対 URL**。相対パスだとクローラが解決できずカードが空になる。
+       画像は LP と同一ファイルの共用（新規制作なし / S139 Kenny 承認）。
+     ============================================================ -->
+<meta property="og:type"         content="website">
+<meta property="og:site_name"    content="hibi">
+<meta property="og:locale"       content="ja_JP">
+<meta property="og:url"          content="https://hibi.bmtx.jp/get">
+<meta property="og:title"        content="hibi — 140 文字と写真の日記アプリ">
+<meta property="og:description"  content="気軽に続けられる、本心の置き場。日記は、あなたの端末の中に保存されます。">
+<meta property="og:image"        content="https://hibi.bmtx.jp/assets/ogp.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"    content="hibi — 読み返す日のための、日記。">
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:image"       content="https://hibi.bmtx.jp/assets/ogp.png">
+
+<link rel="icon" type="image/svg+xml" href="./favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+
+<style>
+  /* ⚠ ここに Web フォントの <link> や @import を **書かないこと**（Kenny S139 Q3 判断）。
+     リダイレクト経路（スマホ＝アクセスの大半）では外部リクエストを 1 本も出さない。
+       - 正常系ではこのページは 100ms 未満で置き換わるため、フォントは間に合わない
+       - 「第三者に一切送らない」を掲げるアプリの唯一の対外ページに、
+         無条件の第三者接続を作らない（PM §3-4 要件 8 の思想を font にも適用）
+     ワードマークの Outfit 100 は、**フォールバック画面を出すと確定した時点で**
+     JS が <link> を注入する（下の loadWordmarkFont / §4-5）。
+     色は LP（index.html）のトークンと同値。 */
+  :root {
+    --bg: #0A0A0A;
+    --surface: #161616;
+    --text: #FFFFFF;
+    --text-body: #D4D4D8;
+    --text-sub: #8A8A92;
+    --text-dim: #5C5C63;
+    --accent: #D4A373;
+    --border: rgba(255,255,255,0.07);
+    --border-strong: rgba(255,255,255,0.12);
+    --font-sans: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP',
+                 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    /* ワードマーク用。LP（index.html）の --font-mark と同値。
+       'Outfit' は既定では読み込まれておらず、フォールバック画面を出すと決まった
+       ときにだけ JS が <link> を注入する（§4-5 / Kenny S139 Q3 判断）。
+       注入されなければ 'Helvetica Neue' 以降に自動で落ちる。 */
+    --font-mark: 'Outfit', 'Helvetica Neue', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text-body);
+    font-family: var(--font-sans);
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+  }
+  main { width: 100%; max-width: 420px; text-align: center; }
+
+  /* ワードマーク。LP の FV（index.html の .fv .fv-mark）と同じ組み。
+     LP FV が「hibi → 明朝見出し → 琥珀の罫」の構図で、本ページの
+     「mark → lead → rule」と 1:1 に対応するため、ヘッダーの .brand-mark
+     （letter-spacing 指定なし + 下線あり）ではなく FV 側に揃えている。
+     ⚠ letter-spacing は LP と同値の .02em。独自の字間を入れないこと。
+     font-size だけは単独ページの階層に合わせて 34px（Kenny 承認）。 */
+  .mark {
+    font-family: var(--font-mark);
+    font-size: 34px;
+    /* Outfit が届かなかったとき用の重み。システムフォントの 100 は
+       環境によって細すぎたり通常重量に丸められたりするため 200 で組む。 */
+    font-weight: 200;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 22px;
+  }
+  /* Outfit の読み込みが完了したときだけ LP と同じ Thin(100) にする。
+     読み込めなければこの class は付かず、上の 200 のまま安全に着地する。 */
+  html.wm-ready .mark { font-weight: 100; }
+  .lead {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-sub);
+    letter-spacing: 0.02em;
+    margin-bottom: 6px;
+  }
+  /* 琥珀の罫 — LP の .lede .orn と同じ寸法（48×3・角丸なし）。
+     LP FV で見出しの直後に置かれているのと同じ装置・同じ位置なので実値を揃える。 */
+  .rule {
+    width: 48px; height: 3px;
+    background: var(--accent);
+    margin: 22px auto 26px;
+  }
+  .note {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 26px;
+  }
+  .links { display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    display: block;
+    padding: 15px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 15px;
+    text-decoration: none;
+    transition: border-color .15s ease;
+  }
+  .btn:hover, .btn:focus-visible { border-color: var(--accent); }
+  .fine {
+    margin-top: 26px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .fine a { color: var(--text-sub); }
+</style>
+
+<script>
+/* ============================================================================
+   [T101] /get — OS 判定リダイレクト
+
+   仕様: agents/docs/02_pm/20260730_t101_app_share_spec.md §3-4
+   設計: agents/docs/04_server/20260822_t101_get_redirect_design.md
+
+   ⚠ このスクリプトは **<head> 内に置くこと**。
+     body の描画が始まる前に location.replace() が走るため、正常系では
+     受け手にこのページが 1 フレームも見えない（PM が言う「0.3 秒の透過」）。
+     </body> の直前に移すと、本文が一瞬光ってからストアへ飛ぶ挙動になる。
+
+   ⚠ このページの URL（https://hibi.bmtx.jp/get）は **恒久固定**。
+     共有されたリンクは相手のトーク履歴に永久に残り、こちらから回収できない。
+     ファイル名を変える・ディレクトリに移す・削除する のいずれも禁止（PM §9-4）。
+
+   ⚠ リダイレクトは **JS でのみ** 行う。
+     HTTP 301/302 や <meta http-equiv="refresh"> を使うと、
+     OGP クローラがストアまで追ってしまい hibi のカードが出なくなる（Designer §3-4 要件 1）。
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  /* ── ストア URL（このページで唯一の「編集する場所」）────────────────────
+     ここを直すと、過去に共有された全てのリンクの飛び先が変わる。
+     これが方式 (b) を選んだ最大の理由（PM §3-3 ③）。 */
+
+  // Android: パッケージ名は jp.bmtx.hibi（旧 com.* は使わない / PM §9-3）
+  var PLAY_URL =
+    'https://play.google.com/store/apps/details?id=jp.bmtx.hibi' +
+    '&utm_source=hibi_share&utm_campaign=in_app_share';
+
+  // iOS: アプリ ID 6799611736
+  //
+  // pt（Provider Token）= Apple Developer アカウント固有の値。全キャンペーンで共通・不変。
+  //   S139 で Kenny が App Store Connect からキャンペーンリンクを生成して取得済み。
+  //   Apple 公式は pt と ct の **両方** を必須としている
+  //   （出典: Apple「Campaign links」App Store Connect Analytics ヘルプ）。
+  //
+  // ⚠⚠ ASC が生成するリンクは apps.apple.com/app/apple-store/id… 形式だが、
+  //     **hibi ではその形式は 404 になる**（実測）。使うのは下の /jp/app/id… 形式。
+  //     将来 pt を採り直すことがあっても、**pt の数値だけを差し替え、
+  //     APPSTORE_BASE の形式は変えないこと**。
+  var APPSTORE_PT   = '129257745';
+  var APPSTORE_BASE = 'https://apps.apple.com/jp/app/id6799611736';
+  var APPSTORE_URL  = APPSTORE_BASE + '?' +
+    (APPSTORE_PT ? 'pt=' + APPSTORE_PT + '&' : '') + 'ct=hibi_share&mt=8';
+
+  /* ── クローラ判定 ──────────────────────────────────────────────────────
+     OGP を読みに来たクローラを飛ばさないための保険。
+     （通常クローラは JS を実行しないので二重の保険だが、実行する実装に備える）
+
+     ⚠⚠ 絶対に `Line` / `Line\/` をこの正規表現に足さないこと。
+        LINE の **アプリ内ブラウザ** の UA には `Line/14.x.x` が入る。
+        ここに足すと、この機能の主戦場である LINE の受け手が
+        リダイレクトされなくなる（＝機能が死ぬ）。
+        LINE の OGP クローラは `facebookexternalhit/1.1; line-poker/1.0` を名乗るので、
+        弾くべきは `line-poker` の方。 */
+  var CRAWLER_RE = new RegExp(
+    'facebookexternalhit|line-poker|Twitterbot|Slackbot|Discordbot|TelegramBot|' +
+    'WhatsApp|Applebot|Googlebot|Google-InspectionTool|bingbot|redditbot|' +
+    'Pinterest|SkypeUriPreview|Embedly|Iframely|Baiduspider|DuckDuckBot|' +
+    'Chrome-Lighthouse|bot\\b|crawler|spider',
+    'i'
+  );
+
+  /* 訪問者を 4 種に分類する。
+     'crawler' と 'desktop' はどちらもリダイレクトしないが、
+     **フォント読み込みの要否が違う**ため区別している（§4-5）。 */
+  function classify(ua) {
+    if (CRAWLER_RE.test(ua)) return 'crawler';   // 飛ばさず meta を読ませる
+
+    // Windows Phone の UA には "Android" が含まれる個体があるため除外する
+    if (/Android/i.test(ua) && !/Windows Phone/i.test(ua)) return 'android';
+
+    // iPadOS 13 以降は UA が "Macintosh" を名乗る。
+    // タッチ点数でしか実機の iPad と Mac を見分けられない。
+    // （Mac は maxTouchPoints が 0。未対応ブラウザでは undefined > 1 = false で安全側に倒れる）
+    if (/iPhone|iPad|iPod/i.test(ua) ||
+        (/Macintosh/i.test(ua) && navigator.maxTouchPoints > 1)) return 'ios';
+
+    return 'desktop';                            // PC・その他 → 本文をそのまま見せる
+  }
+
+  function targetFor(kind) {
+    if (kind === 'android') return PLAY_URL;
+    if (kind === 'ios') return APPSTORE_URL;
+    return null;
+  }
+
+  /* ── ワードマーク用フォントの遅延読み込み（Kenny S139 Q3 判断）──────────
+     **フォールバック画面を実際に出すと決まってから**しか呼ばない。
+     スマホの正常系（＝アクセスの大半）は location.replace() で先に抜けるため、
+     リダイレクト経路では第三者ホストへの接続が 1 本も発生しない。
+
+     読むのは **ワードマーク用の Outfit 100 だけ**。
+     本文の日本語は端末標準フォント（Hiragino / Yu Gothic 等）で十分きれいに出るうえ、
+     日本語ウェブフォントは数十文字のために払うには重すぎるため読まない。
+     LP と字形を揃える価値があるのは、34px で最も目立つブランドマークの 1 か所。 */
+  function loadWordmarkFont() {
+    try {
+      var head = document.head || document.getElementsByTagName('head')[0];
+      if (!head) return;
+
+      function link(rel, href, cors) {
+        var el = document.createElement('link');
+        el.rel = rel;
+        el.href = href;
+        if (cors) el.crossOrigin = 'anonymous';
+        return el;
+      }
+      head.appendChild(link('preconnect', 'https://fonts.googleapis.com', false));
+      head.appendChild(link('preconnect', 'https://fonts.gstatic.com', true));
+
+      // LP（index.html）と同じ css2 形式。family は Outfit:wght@100 のみ。
+      var css = link('stylesheet',
+        'https://fonts.googleapis.com/css2?family=Outfit:wght@100&display=swap', false);
+      // 読み込めたときだけ Thin(100) へ切り替える。
+      // 失敗・オフライン・ブロック時は onload が発火せず、200 のまま何も壊れない。
+      css.onload = function () {
+        try { document.documentElement.className += ' wm-ready'; } catch (e) {}
+      };
+      head.appendChild(css);
+    } catch (e) { /* フォントが載らなくても本文は読める。無視してよい */ }
+  }
+
+  // JS が動く環境では、本文のリンクを常に上記定数から書き直す。
+  // これにより「URL を変えるときに直す場所」を JS 定数 1 か所に閉じられる。
+  function syncLinks() {
+    try {
+      var p = document.getElementById('link-play');
+      var a = document.getElementById('link-appstore');
+      if (p) p.href = PLAY_URL;
+      if (a) a.href = APPSTORE_URL;
+    } catch (e) { /* 失敗しても HTML の静的 href が残る */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncLinks);
+  } else {
+    syncLinks();
+  }
+
+  // ⚠ location.href ではなく **location.replace()** を使う（PM §3-4 要件 2）。
+  //   href だと履歴に /get が積まれ、ストアから戻るボタンで戻った瞬間に
+  //   再びストアへ飛ばされる無限ループになる。
+  try {
+    var kind   = classify(navigator.userAgent || '');
+    var target = targetFor(kind);
+
+    if (target) {
+      // スマホ正常系。ここで抜けるので、以降のフォント読み込みには到達しない。
+      location.replace(target);
+    } else if (kind === 'desktop') {
+      // PC・その他。フォールバック画面を見せると確定したのでフォントを読む。
+      // （クローラはここに来ない = 余計なリクエストを発生させない）
+      loadWordmarkFont();
+    }
+  } catch (e) {
+    // 何が起きても本文（両ストアの手動リンク）が残るので、受け手は行き止まりにならない。
+  }
+})();
+</script>
+</head>
+<body>
+
+<!--
+  ⚠ この本文は「リダイレクトが効かなかったとき」の受け皿であり、既定状態である。
+    JS で隠してから見せる作りには **しないこと**。
+    JS 無効・一部アプリ内ブラウザ・スクリプトエラーのいずれでも、
+    この HTML だけで受け手が両ストアへ辿り着けることが要件（PM §3-4 要件 4・5）。
+-->
+<main>
+  <p class="mark">hibi</p>
+  <p class="lead">読み返す日のための、日記。</p>
+  <div class="rule"></div>
+
+  <p class="note">スマートフォンでこのページを開くと、<br>お使いの端末のストアへ自動で移動します。</p>
+
+  <div class="links">
+    <!-- ⚠ href は <head> の JS 定数（PLAY_URL / APPSTORE_URL）と同じ値。
+         JS が動く環境では DOMContentLoaded 時に JS 側の値で上書きされるため、
+         URL を変えるときは **JS 定数だけ**直せばよい（ここは JS 無効時の保険）。 -->
+    <a class="btn" id="link-play"
+       href="https://play.google.com/store/apps/details?id=jp.bmtx.hibi&amp;utm_source=hibi_share&amp;utm_campaign=in_app_share">Google Play で見る</a>
+    <a class="btn" id="link-appstore"
+       href="https://apps.apple.com/jp/app/id6799611736?pt=129257745&amp;ct=hibi_share&amp;mt=8">App Store で見る</a>
+  </div>
+
+  <p class="fine">
+    自動で移動しない場合は、上のリンクからお進みください。<br>
+    <a href="https://hibi.bmtx.jp/">hibi について</a>
+  </p>
+</main>
+</body>
+</html>
