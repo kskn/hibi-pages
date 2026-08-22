@@ -99,6 +99,8 @@ img{display:block;max-width:100%}
 .lede .k{font-style:normal;color:var(--accent)}   
 .lede .hang{margin-right:-.5em}                    
 .lede .orn{width:48px;height:3px;background:var(--accent);margin:clamp(20px,3vw,30px) 0 clamp(18px,2.6vw,26px)}
+/* FV のワードマーク（ストア画像 #05 と同じ「hibi → 見出し」の構図。書体はヘッダーの brand-mark と同一） */
+.fv .fv-mark{font-family:var(--font-mark);font-weight:100;font-size:clamp(20px,2.2vw,26px);line-height:1;color:var(--text);letter-spacing:.02em;margin-bottom:clamp(16px,2.2vw,24px)}
 .lede .sub{
   font-family:var(--font-serif);
   font-weight:500;font-size:clamp(15px,1.9vw,23px);
@@ -288,6 +290,7 @@ img{display:block;max-width:100%}
 
   <section class="fv wrap">
     <div class="lede">
+      <p class="fv-mark" aria-hidden="true">hibi</p>
       <h1>読み返す日のための、<wbr>日記<span class="hang">。</span></h1>
       <div class="orn" aria-hidden="true"></div>
       <p class="sub">気軽に続けられる、本心の置き場。</p>
